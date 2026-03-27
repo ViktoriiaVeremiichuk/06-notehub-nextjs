@@ -15,14 +15,10 @@ async function Note({ params }: NoteProps) {
   const queryClient = new QueryClient();
   const { id } = await params;
 
-  queryClient.prefetchQuery({
-    queryKey: ['note', id],
+  await queryClient.prefetchQuery({
+    queryKey: ['notes', id],
     queryFn: () => fetchNoteById(id),
   });
-
-  const response = await fetchNoteById(id);
-
-  console.log(response);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
